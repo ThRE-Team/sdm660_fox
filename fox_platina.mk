@@ -38,6 +38,7 @@ OF_FIX_DECRYPTION_ON_DATA_MEDIA := 1
 
 # keymaster
 OF_DEFAULT_KEYMASTER_VERSION := 3.0
+PRODUCT_PROPERTY_OVERRIDES += ro.fox.keymaster_version=3
 
 # patch avb20 - some ROM recoveries try to overwrite custom recoveries
 OF_PATCH_AVB20 := 1
