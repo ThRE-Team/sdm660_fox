@@ -1,5 +1,5 @@
 # Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
-#
+# Copyright (c) 2026, linex Project. All rights reserved.
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
 #     * Redistributions of source code must retain the above copyright
@@ -34,15 +34,26 @@ service vendor.qti.vibrator /system/bin/vendor.qti.hardware.vibrator.service
     setenv LD_LIBRARY_PATH /vendor/lib64:/vendor/lib:/system/lib64:/system/lib:/sbin
     seclabel u:r:recovery:s0
 
+on init
+    exec u:r:recovery:s0 -- /system/bin/fix_dynamic_static.sh
+    mkdir /dev/binderfs
+    mount binder binder /dev/binderfs stats=global
+    chmod 0755 /dev/binderfs
+    chmod 0666 /dev/binderfs/hwbinder
+    chmod 0666 /dev/binderfs/binder
+    chmod 0666 /dev/binderfs/vndbinder
+    symlink /dev/binderfs/binder /dev/binder
+    symlink /dev/binderfs/hwbinder /dev/hwbinder
+    symlink /dev/binderfs/vndbinder /dev/vndbinder
+    setprop prepdecrypt.setpatch true
+    setprop prepdecrypt.loglevel 2
+
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
+    write /sys/touchpanel/double_tap 1
 
 on boot
     start health-hal-2-1
     start vendor.qti.vibrator
     setprop sys.usb.config adb
-
-on init
-    exec u:r:recovery:s0 -- /system/bin/fix_dynamic_static.sh
-#

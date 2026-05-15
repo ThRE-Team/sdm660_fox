@@ -30,7 +30,8 @@ odm            /odm         ext4     ro,barrier=1,discard    wait,logical,first_
 
 /dev/block/by-name/logdump                      /metadata      	ext4    noatime,nosuid,nodev,data=journal,commit=1                                                      wait,check,formattable,first_stage_mount
 
-/dev/block/bootdevice/by-name/userdata   /data   f2fs   nodev,nosuid,fsync_mode=nobarrier,background_gc=off   wait,check,fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized,checkpoint=fs,quota,formattable,reservedsize=128M
+# Not support decrypt, dont enable this!
+#/dev/block/bootdevice/by-name/userdata   /data   f2fs   nodev,nosuid,fsync_mode=nobarrier,background_gc=off   wait,check,fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized,checkpoint=fs,quota,formattable,reservedsize=128M
 
 /dev/block/bootdevice/by-name/boot              /boot      	emmc    defaults                                                                                        defaults
 /dev/block/bootdevice/by-name/recovery          /recovery      	emmc    defaults                                                                                        defaults
